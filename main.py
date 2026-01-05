@@ -18,6 +18,7 @@ class PageSwitcher(tk.Frame):
             self.currentlyDisplayedPage.grid_remove()
         self.currentlyDisplayedPage = self.managedPages[pageId]
         self.currentlyDisplayedPage.grid(row=1, column=1)
+        self.currentlyDisplayedPage.focus_force()
 
 class PageSelector(tk.Frame):
     def __init__(self, parent:tk, desiredHeight:int, desiredWidth:int, pageSwitchFunction) -> None:
