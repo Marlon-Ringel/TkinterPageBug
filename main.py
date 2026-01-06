@@ -17,8 +17,21 @@ class PageSwitcher(tk.Frame):
         if self.currentlyDisplayedPage != None:
             self.currentlyDisplayedPage.grid_remove()
         self.currentlyDisplayedPage = self.managedPages[pageId]
+        self.bindToDummy(self.currentlyDisplayedPage)
         self.currentlyDisplayedPage.grid(row=1, column=1)
-        self.currentlyDisplayedPage.focus_force()
+        self.generateMovement(self.currentlyDisplayedPage)
+
+    def bindToDummy(self, page:tk.Frame):
+        page.bind("<Enter>", self.unbindFromDummy)
+
+    def unbindFromDummy(self, event:tk.Event):
+        event.widget.unbind("<Enter>")
+
+    def generateMovement(self, page:tk.Frame):
+        page.update_idletasks()
+        pageHeight, pageWidth, xOffset = page.winfo_reqheight(), page.winfo_reqwidth(), page.winfo_x()
+        page.event_generate("<Motion>", warp=True, x=1, y=1)
+
 
 class PageSelector(tk.Frame):
     def __init__(self, parent:tk, desiredHeight:int, desiredWidth:int, pageSwitchFunction) -> None:
